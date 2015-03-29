@@ -10,6 +10,31 @@ body {
   }
 
 body.landing {
-    background: #5B5579;
+    background: #E6E6E6;
   }
+
+.navbar-btn {
+    position: relative;
+    left: 500px;
+    width: 200px;
+    height: 50px;
+}
+.panel .panel-default {
+     color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+.panel-heading { color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+.panel-body {
+    background:#FFCCFF;
+    
+}
+.list-group-item {
+    background:#FFCCFF;
+
+}
+
 

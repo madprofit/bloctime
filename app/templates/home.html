@@ -2,7 +2,6 @@
     <div class="container">
     <div class='navbar-header'> 
     <div ui-view></div>
-    <script src="/js/app.js"></script>
     <div class="page-header">
    <h1>BlocTime <small>time your tasks</small></h1>
     </div>
@@ -16,8 +15,10 @@
       <span class="sr-only">40% Complete</span>
    </div>
 </div>
-<button type="button" class="btn btn-default navbar-btn">START</button>
-<div class="box" style="background-color:#4C4C4C;">
-<input type="text" class="form-control" id="exampleInputName2" placeholder="Task Name">
-</div>
+<div class="container">
+    <span>{{ counter }}</span>
+    <button class="btn btn-default navbar-btn" ng-click="timerToggle()">{{ text }}</button>
+    <div class="box" style="background-color:#4C4C4C;">
+        <input type="text" class="form-control" id="exampleInputName2" placeholder="Task Name">
     </div>
+</div>

@@ -11,47 +11,63 @@ blocTime.config(['$stateProvider', '$locationProvider', function($stateProvider,
     controller: 'Home.controller',
     templateUrl: '/templates/home.html'
   });
+
 }]);
 
-blocTime.controller('Home.controller', ['$scope', '$interval', function($scope, $interval) {
+blocTime.constant('MY_TIMERS', {
+    'WORK_SESSION': 3,
+    'BREAK_SESSION': 5
+});
+
+blocTime.controller('Home.controller', ['$scope', '$interval', 'MY_TIMERS', function($scope, $interval, MY_TIMERS) {
    $scope.text = "START";
-   $scope.counter = 25 * 60;
+   // Set the counter to the work session time by default using the constant
+   $scope.counter = MY_TIMERS.WORK_SESSION;
    $scope.timerSet = null;
-   console.log("test");
+   // Set the status to not being on a break by default
+   $scope.onBreak = false;
 
-   $scope.countdown = function() {
-    $scope.counter--;
-   };
-
-   $scope.timerToggle = function() {
-    if($scope.timerSet != null) {
-        // everything that should happen when the timer is stopped
-        // text should change back to start
-        // the counter should stop
-        // the counter should reset
+    $scope.countdown = function() {
+    if ($scope.counter != 0) {
+        $scope.counter--;
+   } else {
         $interval.cancel($scope.timerSet);
-        $scope.text = "START";
-        $scope.counter = 25 * 60;
         $scope.timerSet = null;
-
-    } else {
-        // everything that should happen when timer is started
-        // start the countdown
-        // change the text to stop
-        $scope.timerSet = $interval($scope.countdown, 1000);
-        $scope.text = "RESET";
-    }
-        // if to tell me that work session is over
-        // START My 5min break
-        // change text to work
-        // ngShow
-        // ngHide
-        // add constant of state's instance
-        function fiveMin($timerSet, $counter) {
-            $in
+        if ($scope.onBreak) {
+            $scope.setWorkSession();
+        } else {
+            $scope.setBreak();
         }
-   };
+   }
+};
+
+$scope.timerToggle = function() {
+    if($scope.timerSet != null) {
+        $interval.cancel($scope.timerSet);
+        $scope.timerSet = null;
+        if ($scope.onBreak) {
+            $scope.counter = MY_TIMERS.BREAK_SESSION;
+            $scope.text = "Start Break";
+        } else {
+            $scope.counter = MY_TIMERS.WORK_SESSION;
+            $scope.text = "Work";
+        }
+        } else {
+        $scope.timerSet = $interval($scope.countdown, 1000);
+        $scope.text = "Reset"; // why this an not START?
+    
+    }
+    };
+
+    $scope.setBreak = function() {
+        $scope.onBreak = true;
+        $scope.counter = MY_TIMERS.BREAK_SESSION;
+        $scope.text = "Start Break"; // this again?
+    }
+    $scope.setWorkSession = function() {
+        $scope.onBreak = false;
+        $scope.counter = MY_TIMERS.WORK_SESSION;
+        $scope.text = "Work";
+    }
 
 }]);
-
-

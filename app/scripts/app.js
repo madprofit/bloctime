@@ -1,4 +1,4 @@
-blocTime = angular.module('BlocTime', ['ui.router']);
+blocTime = angular.module('BlocTime', ['ui.router', 'firebase']);
 
 blocTime.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
   $locationProvider.html5Mode({
@@ -15,12 +15,12 @@ blocTime.config(['$stateProvider', '$locationProvider', function($stateProvider,
 }]);
 
 blocTime.constant('MY_TIMERS', {
-    'WORK_SESSION': 10,
+    'WORK_SESSION': 1500,
     'BREAK_SESSION': 5
 });
 
-blocTime.controller('Home.controller', ['$scope', '$interval', 'MY_TIMERS', function($scope, $interval, MY_TIMERS) {
-   $scope.text = "START";
+blocTime.controller('Home.controller', ['$scope', '$interval', 'MY_TIMERS', '$firebaseArray', function($scope, $interval, MY_TIMERS, $firebaseArray) {
+   $scope.text = "   START   ";
    // Set the counter to the work session time by default using the constant
    $scope.counter = MY_TIMERS.WORK_SESSION;
    $scope.timerSet = null;
@@ -54,14 +54,14 @@ $scope.timerToggle = function() {
         $scope.resetProgressBar();
         if ($scope.onBreak) {
             $scope.counter = MY_TIMERS.BREAK_SESSION;
-            $scope.text = "Start Break";
+            $scope.text = "Break";
         } else {
             $scope.counter = MY_TIMERS.WORK_SESSION;
-            $scope.text = "Work";
+            $scope.text = "   Work   ";
         }
         } else {
         $scope.timerSet = $interval($scope.countdown, 1000);
-        $scope.text = "Reset"; // why this an not START?
+        $scope.text = "   Reset   "; 
     
     }
     };
@@ -69,12 +69,12 @@ $scope.timerToggle = function() {
     $scope.setBreak = function() {
         $scope.onBreak = true;
         $scope.counter = MY_TIMERS.BREAK_SESSION;
-        $scope.text = "Start Break"; // this again?
+        $scope.text = "Break"; // this again?
     }
     $scope.setWorkSession = function() {
         $scope.onBreak = false;
         $scope.counter = MY_TIMERS.WORK_SESSION;
-        $scope.text = "Work";
+        $scope.text = "    Work    ";
     }
 
     $scope.calculateTimerPercentage = function(selectedTimer) {
@@ -90,28 +90,39 @@ $scope.timerToggle = function() {
         $scope.barPercentage = "0%";
     }
 
-    //link counter to progress bar width
-    // Figure out total time in timer
-    // Figure out how much time as passed
-    // Calculate the percentage of how much time is passed
+    var ref = new Firebase("https://bloctimer.firebaseio.com");
+    $scope.tasks = $firebaseArray(ref);
 
-    // if there is no time left, reset progree bar
-    // reset progres bar after clicking reset button
-    // let progrees know that no time has been counted down
+    $scope.addTask = function() {
+        $scope.tasks.$add({name: $scope.task});
+        $scope.task = "";
+    }
 
-    // If we're on a break and the button is pressed, calculate the timer percentage based on the break timer.
-    // Otherwise, calculate the percentage based on the work timer.
-
+    $scope.deleteTasks = function() {
+        var arrayLength = $scope.tasks.length;
+        for (var i = 0; i < arrayLength; i++) {
+            var item = $scope.tasks[i];
+            $scope.tasks.$remove(item);
+        }
+    }
 }]);
 
-var progress = setInterval(function () {
-    var $bar = $('.bar');
-
-    if ($bar.width() >= 400) {
-        clearInterval(progress);
-        $('.progress').removeClass('active');
-    } else {
-        $bar.width($bar.width() + 40);
+blocTime.filter('timecode', function() {
+    return function(seconds) {
+        seconds = Number.parseFloat(seconds); //Number function?
+            if(Number.isNaN(seconds)) {
+                return '00:00';
+            }
+            var wholeSeconds = Math.floor(seconds);
+            var minutes = Math.floor(wholeSeconds / 60);
+            remainingSeconds = wholeSeconds % 60;
+            var output = minutes + ':';
+            if (remainingSeconds < 10) {
+                output += '0';
+            }
+            output += remainingSeconds;
+            return output;
     }
-    $bar.text($bar.width() / 4 + "%");
-}, 800);
+})
+
+

@@ -1,0 +1,38 @@
+html {
+  height: 100%; }
+
+body {
+  font-family: 'Open Sans';
+  color: red;
+  min-height: 100%; }
+
+body.home {
+  background: #E6E6E6; }
+
+.btn-default {
+  float: right;
+  margin-right: 400px;
+  right: 20px;
+  width: 200px;
+  height: 50px; }
+
+.box {
+  float: left;
+  width: 320px;
+  height: 500px;
+  padding: 10px;
+  border: 2px solid gray;
+  margin: 0; }
+
+.counter {
+  float: left;
+  margin-right: 400px;
+  padding: 10px;
+  background: #999999;
+  border: 2px solid gray;
+  font-family: 'Open Sans';
+  color: blue; }
+
+/*
+ * Buttons
+ */

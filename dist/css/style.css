@@ -1,37 +1,101 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('../fonts/icomoon/icomoon.eot');
+  src: url('../fonts/icomoon/icomoon.eot?#iefix') format('embedded-opentype'), url('../fonts/icomoon/icomoon.woff') format('woff'), url('../fonts/icomoon/icomoon.ttf') format('truetype'), url('../fonts/icomoon/icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal; }
+
 html {
   height: 100%; }
 
 body {
-  font-family: 'Open Sans';
-  color: red;
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+  color: white;
   min-height: 100%; }
 
 body.home {
-  background: #E6E6E6; }
+  background: #f06060; }
 
-.btn-default {
-  float: right;
-  margin-right: 400px;
-  right: 20px;
-  width: 200px;
-  height: 50px; }
+.main-content {
+  text-align: center; }
 
-.box {
-  float: left;
-  width: 320px;
+/*
+ * Button
+ */
+.btn {
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+  padding: 25px 80px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  outline: none;
+  position: relative;
+  transition: all 0.3s; }
+
+.btn:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s; }
+
+/* Pseudo elements for icons */
+.btn:before, .icon-heart:after, .icon-star:after, .icon-plus:after, .icon-file:before {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  position: relative;
+  -webkit-font-smoothing: antialiased; }
+
+.btn-2 {
+  background: #cb4e4e;
+  color: #fff;
+  box-shadow: 0 6px #ab3c3c;
+  transition: none; }
+
+/* Button 2g */
+.btn-2g {
+  border-radius: 40px; }
+
+.btn-2g:hover {
+  box-shadow: 0 4px #ab3c3c;
+  top: 2px; }
+
+.btn-2g:active {
+  box-shadow: 0 0 #ab3c3c;
+  top: 6px; }
+
+.task-box {
+  font-family: "Oswald", sans-serif;
+  margin-top: 20px;
   height: 500px;
   padding: 10px;
-  border: 2px solid gray;
-  margin: 0; }
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto; }
+  .task-box .task-box #task-submit {
+    font-size: 15px;
+    background-color: #409ace;
+    color: white;
+    border: none; }
+
+#task-input {
+  color: black; }
 
 .counter {
-  float: left;
-  margin-right: 400px;
-  padding: 10px;
-  background: #999999;
-  border: 2px solid gray;
-  font-family: 'Open Sans';
-  color: blue; }
+  font-size: 75px;
+  padding: 2px;
+  font-family: Arial;
+  color: white; }
 
 /*
  * Buttons
